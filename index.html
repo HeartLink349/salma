@@ -3,9 +3,37 @@
 <head>    
   <meta charset="UTF-8" />    
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />    
-  <title>HeartLink | Space Love</title>    
+  <title>My love Salma</title>    
+  
+  <link rel="apple-touch-icon" href="https://a.top4top.io/p_37250f8ef1.jpg">
+  
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" />    
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>    
+  
+  <script>
+    // كود تحويل الموقع لتطبيق (PWA Config)
+    const manifest = {
+      "name": "My love Salma",
+      "short_name": "Salma",
+      "start_url": ".",
+      "display": "standalone",
+      "background_color": "#06070f",
+      "theme_color": "#ff4d8d",
+      "icons": [
+        {
+          "src": "https://a.top4top.io/p_37250f8ef1.jpg",
+          "sizes": "512x512",
+          "type": "image/jpeg",
+          "purpose": "any maskable"
+        }
+      ]
+    };
+    const stringManifest = JSON.stringify(manifest);
+    const blob = new Blob([stringManifest], {type: 'application/json'});
+    const manifestURL = URL.createObjectURL(blob);
+    document.querySelector('head').insertAdjacentHTML('beforeend', `<link rel="manifest" href="${manifestURL}">`);
+  </script>
+
   <style>    
     :root{    
       --bg0:#06070f;    
