@@ -11,20 +11,53 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>    
   
   <script>
-    // كود تحويل الموقع لتطبيق (PWA Config)
+    // كود المانيفست المطور لحل أخطاء PWA Builder بالكامل
     const manifest = {
       "name": "My love Salma",
       "short_name": "Salma",
+      "description": "تطبيق مخصص لأجمل ذكرى مع سلمى - عالم من الحب والفضاء",
       "start_url": ".",
       "display": "standalone",
+      "orientation": "portrait",
       "background_color": "#06070f",
       "theme_color": "#ff4d8d",
+      "categories": ["lifestyle", "entertainment"],
+      "lang": "ar",
+      "dir": "rtl",
       "icons": [
         {
           "src": "https://a.top4top.io/p_37250f8ef1.jpg",
           "sizes": "512x512",
           "type": "image/jpeg",
           "purpose": "any maskable"
+        },
+        {
+          "src": "https://a.top4top.io/p_37250f8ef1.jpg",
+          "sizes": "192x192",
+          "type": "image/jpeg"
+        }
+      ],
+      "screenshots": [
+        {
+          "src": "https://a.top4top.io/p_37250f8ef1.jpg",
+          "sizes": "512x512",
+          "type": "image/jpeg",
+          "form_factor": "wide",
+          "label": "Home Screen"
+        },
+        {
+          "src": "https://a.top4top.io/p_37250f8ef1.jpg",
+          "sizes": "512x512",
+          "type": "image/jpeg",
+          "form_factor": "narrow",
+          "label": "Home Screen Mobile"
+        }
+      ],
+      "shortcuts": [
+        {
+          "name": "فتح الرسالة",
+          "url": "/#openLetter",
+          "icons": [{ "src": "https://a.top4top.io/p_37250f8ef1.jpg", "sizes": "192x192" }]
         }
       ]
     };
