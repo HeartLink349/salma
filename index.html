@@ -1,0 +1,1299 @@
+<!DOCTYPE html>    
+<html lang="ar" dir="rtl">    
+<head>    
+  <meta charset="UTF-8" />    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />    
+  <title>HeartLink | Space Love</title>    
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />    
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>    
+  <style>    
+    :root{    
+      --bg0:#06070f;    
+      --bg1:#12091b;    
+      --bg2:#1a0b16;    
+      --text:#fff7fb;    
+      --muted:rgba(255,255,255,.72);    
+      --pink:#ff4d8d;    
+      --pink2:#ff7ab2;    
+      --pink3:#ffc0d7;    
+      --violet:#8a5cff;    
+      --card:rgba(255,255,255,.08);    
+      --card-border:rgba(255,255,255,.12);    
+      --shadow:0 25px 80px rgba(0,0,0,.45);    
+    }    
+    
+    *{    
+      box-sizing:border-box;    
+      -webkit-tap-highlight-color:transparent;    
+      font-family:"Segoe UI", system-ui, sans-serif;    
+    }    
+    
+    html,body{    
+      width:100%;    
+      height:100%;    
+      margin:0;    
+      overflow:hidden;    
+      background:    
+        radial-gradient(900px 520px at 20% 10%, rgba(255,77,141,.18), transparent 60%),    
+        radial-gradient(860px 520px at 82% 16%, rgba(138,92,255,.14), transparent 60%),    
+        radial-gradient(760px 480px at 50% 90%, rgba(255,192,215,.10), transparent 60%),    
+        linear-gradient(180deg,var(--bg0),var(--bg1) 44%,var(--bg2));    
+      color:var(--text);    
+    }    
+    
+    .glow-bg{    
+      position:fixed;    
+      inset:-120px;    
+      z-index:-3;    
+      pointer-events:none;    
+      filter:blur(60px);    
+      opacity:.78;    
+      background:    
+        radial-gradient(400px 300px at 18% 20%, rgba(255,77,141,.18), transparent 65%),    
+        radial-gradient(460px 320px at 82% 20%, rgba(138,92,255,.16), transparent 65%),    
+        radial-gradient(360px 260px at 50% 84%, rgba(255,192,215,.12), transparent 65%);    
+      animation:bgFloat 12s ease-in-out infinite alternate;    
+    }    
+    
+    @keyframes bgFloat{    
+      0%{transform:translate3d(-1%, -1%, 0) scale(1.03)}    
+      100%{transform:translate3d(1.3%, 1.1%, 0) scale(1.07)}    
+    }    
+    
+    canvas#stars{    
+      position:fixed;    
+      inset:0;    
+      width:100%;    
+      height:100%;    
+      z-index:-2;    
+      pointer-events:none;    
+      opacity:.95;    
+    }    
+    
+    .screen{    
+      position:fixed;    
+      inset:0;    
+      display:none;    
+      z-index:1;    
+      background:    
+        radial-gradient(900px 520px at 20% 10%, rgba(255,77,141,.18), transparent 60%),    
+        radial-gradient(860px 520px at 82% 16%, rgba(138,92,255,.14), transparent 60%),    
+        radial-gradient(760px 480px at 50% 90%, rgba(255,192,215,.10), transparent 60%),    
+        linear-gradient(180deg,var(--bg0),var(--bg1) 44%,var(--bg2));    
+    }    
+    
+    .screen.active{    
+      display:block;    
+      z-index:5;    
+    }    
+    
+    .intro{    
+      display:flex;    
+      align-items:center;    
+      justify-content:center;    
+      padding:22px;    
+    }    
+    
+    .intro-card{    
+      width:min(540px,100%);    
+      border-radius:34px;    
+      padding:30px 22px 24px;    
+      background:rgba(255,255,255,.08);    
+      border:1px solid rgba(255,255,255,.13);    
+      box-shadow:var(--shadow);    
+      backdrop-filter:blur(20px);    
+      position:relative;    
+      overflow:hidden;    
+      text-align:center;    
+    }    
+    
+    .intro-card::before{    
+      content:"";    
+      position:absolute;    
+      inset:-25%;    
+      background:    
+        radial-gradient(circle at 28% 28%, rgba(255,77,141,.18), transparent 40%),    
+        radial-gradient(circle at 72% 68%, rgba(138,92,255,.16), transparent 42%);    
+      filter:blur(25px);    
+      z-index:0;    
+    }    
+    
+    .intro-card > *{    
+      position:relative;    
+      z-index:1;    
+    }    
+    
+    .intro-heart{    
+      font-size:60px;    
+      margin-bottom:10px;    
+      filter:drop-shadow(0 0 16px rgba(255,77,141,.45));    
+      animation:beat 1.5s infinite ease-in-out;    
+    }    
+    
+    @keyframes beat{    
+      0%,100%{transform:scale(1)}    
+      25%{transform:scale(1.08)}    
+      55%{transform:scale(.97)}    
+    }    
+    
+    .intro h1{    
+      margin:0 0 20px;    
+      font-size:30px;    
+      line-height:1.25;    
+      font-weight:1000;    
+      background:linear-gradient(135deg,var(--pink3),var(--pink2),var(--violet));    
+      -webkit-background-clip:text;    
+      -webkit-text-fill-color:transparent;    
+    }    
+    
+    .pass-input{    
+      width: 100%;    
+      padding: 15px;    
+      border-radius: 18px;    
+      border: 1px solid rgba(255,255,255,0.2);    
+      background: rgba(255,255,255,0.1);    
+      color: white;    
+      text-align: center;    
+      font-size: 18px;    
+      margin-bottom: 20px;    
+      outline: none;    
+    }    
+
+    .enter-btn{    
+      width:100%;    
+      border:none;    
+      outline:none;    
+      cursor:pointer;    
+      padding:17px 20px;    
+      border-radius:22px;    
+      font-size:18px;    
+      font-weight:1000;    
+      color:#2b0915;    
+      background:linear-gradient(135deg,var(--pink3),var(--pink2),var(--pink));    
+      box-shadow:0 18px 35px rgba(255,77,141,.28);    
+      transition:transform .15s ease;    
+    }    
+    
+    .enter-btn:active{    
+      transform:scale(.98);    
+    }    
+    
+    .intro-note{    
+      margin-top:12px;    
+      font-size:12px;    
+      font-weight:800;    
+      color:rgba(255,255,255,.58);    
+    }    
+    
+    .app{    
+      position:fixed;    
+      inset:0;    
+      overflow:hidden;    
+      background:    
+        radial-gradient(900px 520px at 20% 10%, rgba(255,77,141,.12), transparent 60%),    
+        radial-gradient(860px 520px at 82% 16%, rgba(138,92,255,.10), transparent 60%),    
+        linear-gradient(180deg,var(--bg0),var(--bg1) 44%,var(--bg2));    
+    }    
+    
+    .top-chip{    
+      position:fixed;    
+      top:16px;    
+      left:50%;    
+      transform:translateX(-50%);    
+      z-index:20;    
+      display:flex;    
+      align-items:center;    
+      gap:10px;    
+      padding:12px 18px;    
+      border-radius:999px;    
+      background:rgba(255,255,255,.08);    
+      border:1px solid rgba(255,255,255,.12);    
+      box-shadow:var(--shadow);    
+      backdrop-filter:blur(18px);    
+      font-weight:1000;    
+      font-size:16px;    
+      white-space:nowrap;    
+      max-width:calc(100vw - 28px);    
+      overflow:hidden;    
+      text-overflow:ellipsis;    
+    }    
+    
+    .top-chip i{    
+      color:var(--pink2);    
+      flex-shrink:0;    
+    }    
+    
+    .space-view{    
+      position:absolute;    
+      inset:0;    
+      overflow:hidden;    
+      touch-action:none;    
+      cursor:grab;    
+    }    
+    
+    .space-view.dragging{    
+      cursor:grabbing;    
+    }    
+    
+    .world{    
+      position:absolute;    
+      left:0;    
+      top:0;    
+      width:5200px;    
+      height:5200px;    
+      transform-origin:0 0;    
+      will-change:transform;    
+    }    
+    
+    .center-heart{    
+      position:absolute;    
+      left:2600px;    
+      top:2600px;    
+      width:360px;    
+      height:360px;    
+      transform:translate(-50%,-50%);    
+      z-index:8;    
+      pointer-events:none;    
+    }    
+    
+    .planet-wrap{    
+      position:absolute;    
+      inset:0;    
+      animation:planetFloat 5s ease-in-out infinite;    
+    }    
+    
+    @keyframes planetFloat{    
+      0%,100%{transform:translateY(0)}    
+      50%{transform:translateY(-10px)}    
+    }    
+    
+    .planet-heart{    
+      position:absolute;    
+      left:50%;    
+      top:50%;    
+      width:210px;    
+      height:210px;    
+      transform:translate(-50%,-50%) rotate(-45deg);    
+      background:linear-gradient(135deg,var(--pink),var(--pink2),var(--violet));    
+      border-radius:26% 0 24% 50%;    
+      box-shadow:    
+        0 0 30px rgba(255,77,141,.38),    
+        0 0 55px rgba(138,92,255,.20),    
+        inset 0 0 26px rgba(255,255,255,.12);    
+    }    
+    
+    .planet-heart::before,    
+    .planet-heart::after{    
+      content:"";    
+      position:absolute;    
+      width:100%;    
+      height:100%;    
+      border-radius:50%;    
+      background:inherit;    
+    }    
+    
+    .planet-heart::before{    
+      top:-50%;    
+      left:0;    
+    }    
+    
+    .planet-heart::after{    
+      top:0;    
+      left:50%;    
+    }    
+    
+    .planet-core{    
+      position:absolute;    
+      left:50%;    
+      top:50%;    
+      width:135px;    
+      height:135px;    
+      transform:translate(-50%,-50%);    
+      border-radius:50%;    
+      background:rgba(18,8,28,.22);    
+      border:1px solid rgba(255,255,255,.14);    
+      backdrop-filter:blur(10px);    
+      display:flex;    
+      align-items:center;    
+      justify-content:center;    
+      font-size:22px;    
+      font-weight:1000;    
+      color:#fff;    
+      text-shadow:0 0 14px rgba(255,255,255,.16);    
+      z-index:3;    
+    }    
+    
+    .saturn-ring{    
+      position:absolute;    
+      left:50%;    
+      top:50%;    
+      width:500px;    
+      height:140px;    
+      transform:translate(-50%,-50%) rotate(-16deg);    
+      border-radius:50%;    
+      border:2px solid rgba(255,190,220,.46);    
+      border-left-color:rgba(255,255,255,.12);    
+      border-right-color:rgba(255,255,255,.12);    
+      box-shadow:    
+        0 0 32px rgba(255,77,141,.18),    
+        inset 0 0 20px rgba(255,255,255,.07);    
+      z-index:1;    
+    }    
+    
+    .saturn-ring::before{    
+      content:"";    
+      position:absolute;    
+      inset:8px;    
+      border-radius:50%;    
+      border:1px solid rgba(255,255,255,.10);    
+    }    
+    
+    .orbit-image{    
+      position:absolute;    
+      width:110px;    
+      height:110px;    
+      border-radius:26px;    
+      overflow:hidden;    
+      background:rgba(255,255,255,.06);    
+      border:1px solid rgba(255,255,255,.14);    
+      box-shadow:    
+        0 18px 34px rgba(0,0,0,.32),    
+        0 0 20px rgba(255,77,141,.12);    
+      backdrop-filter:blur(8px);    
+      cursor:pointer;    
+      user-select:none;    
+      z-index:10;    
+      transition:transform .18s ease, box-shadow .18s ease;    
+      animation:orbFloat 6s ease-in-out infinite;    
+    }    
+    
+    .orbit-image::after{    
+      content:"";    
+      position:absolute;    
+      inset:-6px;    
+      border-radius:30px;    
+      border:1px solid rgba(255,255,255,.05);    
+      pointer-events:none;    
+    }    
+    
+    .orbit-image:hover{    
+      transform:scale(1.04);    
+    }    
+    
+    .orbit-image img{    
+      width:100%;    
+      height:100%;    
+      object-fit:cover;    
+      display:block;    
+    }    
+    
+    @keyframes orbFloat{    
+      0%,100%{translate:0 0}    
+      50%{translate:0 -9px}    
+    }    
+    
+    .floating-note{    
+      position:absolute;    
+      max-width:250px;    
+      min-width:140px;    
+      padding:12px 14px;    
+      border-radius:20px;    
+      background:rgba(255,255,255,.10);    
+      border:1px solid rgba(255,255,255,.14);    
+      box-shadow:var(--shadow);    
+      backdrop-filter:blur(14px);    
+      color:#fff;    
+      text-align:center;    
+      font-size:15px;    
+      line-height:1.8;    
+      font-weight:1000;    
+      z-index:6;    
+      animation:noteDrift 7s ease-in-out infinite;    
+      pointer-events:none;    
+    }    
+    
+    .floating-note::after{    
+      content:"";    
+      position:absolute;    
+      width:12px;    
+      height:12px;    
+      background:inherit;    
+      border-right:1px solid rgba(255,255,255,.14);    
+      border-bottom:1px solid rgba(255,255,255,.14);    
+      bottom:-7px;    
+      left:calc(50% - 6px);    
+      transform:rotate(45deg);    
+    }    
+    
+    @keyframes noteDrift{    
+      0%,100%{transform:translateY(0px)}    
+      50%{transform:translateY(-12px)}    
+    }    
+    
+    .dock{    
+      position:fixed;    
+      left:14px;    
+      right:14px;    
+      bottom:14px;    
+      z-index:30;    
+      padding:12px;    
+      border-radius:24px;    
+      background:rgba(10,10,18,.56);    
+      border:1px solid rgba(255,255,255,.12);    
+      backdrop-filter:blur(18px);    
+      box-shadow:var(--shadow);    
+    }    
+    
+    .dock-top{    
+      display:flex;    
+      align-items:center;    
+      gap:10px;    
+      margin-bottom:10px;    
+    }    
+    
+    .play-btn,.dock-btn{    
+      width:48px;    
+      height:48px;    
+      border:none;    
+      outline:none;    
+      cursor:pointer;    
+      border-radius:18px;    
+      background:rgba(255,255,255,.10);    
+      color:#fff;    
+      display:grid;    
+      place-items:center;    
+      font-size:17px;    
+      border:1px solid rgba(255,255,255,.1);    
+      flex-shrink:0;    
+    }    
+    
+    .title-wrap{    
+      min-width:0;    
+      flex:1;    
+    }    
+    
+    .song-title{    
+      font-size:13px;    
+      font-weight:1000;    
+      white-space:nowrap;    
+      overflow:hidden;    
+      text-overflow:ellipsis;    
+    }    
+    
+    .song-sub{    
+      font-size:11px;    
+      font-weight:800;    
+      color:rgba(255,255,255,.65);    
+      margin-top:2px;    
+    }    
+    
+    .seek-wrap{    
+      display:flex;    
+      align-items:center;    
+      gap:8px;    
+    }    
+    
+    .time{    
+      font-size:11px;    
+      color:rgba(255,255,255,.68);    
+      font-weight:900;    
+      min-width:38px;    
+      text-align:center;    
+    }    
+    
+    .seekbar{    
+      flex:1;    
+      height:10px;    
+      border-radius:999px;    
+      background:rgba(255,255,255,.12);    
+      position:relative;    
+      overflow:hidden;    
+      cursor:pointer;    
+    }    
+    
+    .seek-fill{    
+      position:absolute;    
+      inset:0 auto 0 0;    
+      width:0%;    
+      background:linear-gradient(135deg,var(--pink3),var(--pink2),var(--pink));    
+      border-radius:999px;    
+    }    
+    
+    .seek-knob{    
+      position:absolute;    
+      top:50%;    
+      left:0%;    
+      width:16px;    
+      height:16px;    
+      border-radius:50%;    
+      background:#fff;    
+      transform:translate(-50%,-50%);    
+      box-shadow:0 8px 18px rgba(0,0,0,.3);    
+    }    
+    
+    .dock-bottom{    
+      display:flex;    
+      align-items:center;    
+      gap:10px;    
+      margin-top:10px;    
+    }    
+    
+    .volume-wrap{    
+      flex:1;    
+      display:flex;    
+      align-items:center;    
+      gap:8px;    
+      padding:0 4px;    
+    }    
+    
+    .volume-wrap i{    
+      color:rgba(255,255,255,.72);    
+      font-size:14px;    
+    }    
+    
+    .volume{    
+      width:100%;    
+      accent-color:var(--pink);    
+    }    
+    
+    .dock-btn.wide{    
+      width:auto;    
+      padding:0 16px;    
+      display:flex;    
+      gap:8px;    
+      font-size:14px;    
+      font-weight:1000;    
+    }    
+    
+    .viewer,    
+    .letter-overlay{    
+      position:fixed;    
+      inset:0;    
+      z-index:80;    
+      display:none;    
+      align-items:center;    
+      justify-content:center;    
+      background:rgba(0,0,0,.74);    
+      backdrop-filter:blur(8px);    
+      padding:18px;    
+    }    
+    
+    .viewer.show,    
+    .letter-overlay.show{    
+      display:flex;    
+    }    
+    
+    .viewer-card,    
+    .letter-card{    
+      width:min(560px,100%);    
+      border-radius:28px;    
+      background:rgba(16,12,22,.88);    
+      border:1px solid rgba(255,255,255,.12);    
+      box-shadow:0 30px 90px rgba(0,0,0,.6);    
+      overflow:hidden;    
+      backdrop-filter:blur(18px);    
+    }    
+    
+    .viewer-head,    
+    .letter-head{    
+      padding:14px 16px;    
+      display:flex;    
+      align-items:center;    
+      justify-content:space-between;    
+      border-bottom:1px solid rgba(255,255,255,.08);    
+    }    
+    
+    .viewer-title,    
+    .letter-title{    
+      font-size:16px;    
+      font-weight:1000;    
+    }    
+    
+    .close-btn{    
+      width:42px;    
+      height:42px;    
+      border-radius:14px;    
+      border:none;    
+      outline:none;    
+      cursor:pointer;    
+      background:rgba(255,255,255,.09);    
+      color:#fff;    
+      border:1px solid rgba(255,255,255,.1);    
+      display:grid;    
+      place-items:center;    
+    }    
+    
+    .viewer-body{    
+      padding:16px;    
+    }    
+    
+    .drag-zone{    
+      position:relative;    
+      width:100%;    
+      height:min(62vh,420px);    
+      overflow:hidden;    
+      border-radius:24px;    
+      background:rgba(255,255,255,.05);    
+      border:1px solid rgba(255,255,255,.08);    
+      touch-action:none;    
+    }    
+    
+    .draggable{    
+      position:absolute;    
+      left:50%;    
+      top:50%;    
+      transform:translate(-50%, -50%) scale(1);    
+      transform-origin:center center;    
+      max-width:82%;    
+      max-height:82%;    
+      user-select:none;    
+      cursor:grab;    
+      border-radius:24px;    
+      box-shadow:0 20px 40px rgba(0,0,0,.34);    
+    }    
+    
+    .draggable:active{    
+      cursor:grabbing;    
+    }    
+    
+    .viewer-tools{    
+      display:flex;    
+      align-items:center;    
+      gap:10px;    
+      margin-top:14px;    
+    }    
+    
+    .tool-btn{    
+      border:none;    
+      outline:none;    
+      cursor:pointer;    
+      min-width:48px;    
+      height:46px;    
+      border-radius:16px;    
+      background:rgba(255,255,255,.09);    
+      color:#fff;    
+      border:1px solid rgba(255,255,255,.1);    
+      font-size:18px;    
+      font-weight:1000;    
+      padding:0 14px;    
+    }    
+    
+    .viewer-note{    
+      margin-top:12px;    
+      padding:12px 14px;    
+      border-radius:16px;    
+      background:rgba(255,255,255,.07);    
+      border:1px solid rgba(255,255,255,.08);    
+      color:#fff;    
+      font-size:13px;    
+      line-height:1.9;    
+      font-weight:900;    
+      text-align:center;    
+    }    
+    
+    .letter-body{    
+      padding:20px 18px 22px;    
+      max-height:70vh;    
+      overflow:auto;    
+      line-height:2;    
+      font-size:16px;    
+      font-weight:900;    
+      color:#fff;    
+      white-space:pre-line;    
+      text-align:center;    
+    }    
+    
+    .toast{    
+      position:fixed;    
+      left:50%;    
+      top:16px;    
+      transform:translateX(-50%) translateY(-20px);    
+      z-index:100;    
+      padding:12px 16px;    
+      border-radius:16px;    
+      background:rgba(16,12,22,.9);    
+      border:1px solid rgba(255,255,255,.12);    
+      box-shadow:var(--shadow);    
+      backdrop-filter:blur(14px);    
+      font-size:13px;    
+      font-weight:900;    
+      opacity:0;    
+      transition:.25s ease;    
+      pointer-events:none;    
+    }    
+    
+    .toast.show{    
+      opacity:1;    
+      transform:translateX(-50%) translateY(0);    
+    }    
+  </style>    
+</head>    
+<body>    
+  <div class="glow-bg"></div>    
+  <canvas id="stars"></canvas>    
+    
+  <div class="screen intro active" id="introScreen">    
+    <div class="intro-card">    
+      <div class="intro-heart">❤️</div>    
+      <h1>كل حاجة هنا معموله ليكي وبس</h1>    
+      <input type="text" class="pass-input" id="passCode" placeholder="اكتبي التاريخ هنا ✨">
+      <button class="enter-btn" id="enterBtn">دوسي هنا❤🙈</button>    
+      <div class="intro-note">اسحبي وكبري وصغري وروحي لأي صورة ✨</div>    
+    </div>    
+  </div>    
+    
+  <div class="screen" id="mainScreen">    
+    <div class="app">    
+      <div class="top-chip">    
+        <i class="fa-solid fa-heart"></i>    
+        <span>قلبي لسه بيدور حواليكي ❤️</span>    
+      </div>    
+    
+      <div class="space-view" id="spaceView">    
+        <div class="world" id="world">    
+          <div class="center-heart">    
+            <div class="planet-wrap">    
+              <div class="saturn-ring"></div>    
+              <div class="planet-heart"></div>    
+              <div class="planet-core">سلمى 🤍</div>    
+            </div>    
+          </div>    
+        </div>    
+      </div>    
+    
+      <div class="dock">    
+        <div class="dock-top">    
+          <button class="play-btn" id="playBtn">    
+            <i class="fa-solid fa-pause"></i>    
+          </button>    
+    
+          <div class="title-wrap">    
+            <div class="song-title">أغنيتنا 🤍</div>    
+            <div class="song-sub">شغالة مخصوص علشانك</div>    
+          </div>    
+    
+          <button class="dock-btn wide" id="openLetterBtn">    
+            <i class="fa-solid fa-envelope-open-text"></i>    
+            <span>رسالة</span>    
+          </button>    
+        </div>    
+    
+        <div class="seek-wrap">    
+          <div class="time" id="curTime">0:00</div>    
+          <div class="seekbar" id="seekbar">    
+            <div class="seek-fill" id="seekFill"></div>    
+            <div class="seek-knob" id="seekKnob"></div>    
+          </div>    
+          <div class="time" id="durTime">0:00</div>    
+        </div>    
+    
+        <div class="dock-bottom">    
+          <div class="volume-wrap">    
+            <i class="fa-solid fa-volume-low"></i>    
+            <input id="volume" class="volume" type="range" min="0" max="1" step="0.01" value="0.9">    
+          </div>    
+    
+          <button class="dock-btn wide" id="centerBtn">    
+            <i class="fa-solid fa-location-crosshairs"></i>    
+            <span>النص</span>    
+          </button>    
+        </div>    
+    
+        <audio id="audio" preload="auto" loop src="https://g.top4top.io/m_3725far8d1.mp3"></audio>    
+      </div>    
+    </div>    
+  </div>    
+    
+  <div class="viewer" id="viewer">    
+    <div class="viewer-card">    
+      <div class="viewer-head">    
+        <div class="viewer-title">أجمل ذكرى 🤍</div>    
+        <button class="close-btn" id="closeViewer"><i class="fa-solid fa-xmark"></i></button>    
+      </div>    
+    
+      <div class="viewer-body">    
+        <div class="drag-zone" id="dragZone">    
+          <img id="dragImage" class="draggable" src="" alt="memory">    
+        </div>    
+    
+        <div class="viewer-tools">    
+          <button class="tool-btn" id="zoomIn">+</button>    
+          <button class="tool-btn" id="zoomOut">−</button>    
+          <button class="tool-btn" id="resetImage">↺</button>    
+        </div>    
+    
+        <div class="viewer-note" id="viewerNote"></div>    
+      </div>    
+    </div>    
+  </div>    
+    
+  <div class="letter-overlay" id="letterOverlay">    
+    <div class="letter-card">    
+      <div class="letter-head">    
+        <div class="letter-title">رسالة ليكي يا سلمى 🤍</div>    
+        <button class="close-btn" id="closeLetter"><i class="fa-solid fa-xmark"></i></button>    
+      </div>    
+      <div class="letter-body">    
+سلمي ❤️ من يوم ما دخلتي حياتي وانتي غيرتي كل حاجه فيها 💫 بقيت اشوف الدنيا اجمل عشان انتي فيها 🌍 بقيت ابتسم من غير سبب لمجرد اني افتكرتك 😊 انتي مش بس حد بحبه انتي روحي اللي بعيش بيها وقلبي اللي بيدق باسمك 💓 وجودك جنبي بيخليني حاسس اني ملك الدنيا كلها 👑 كل كلمه منك بتفرحني وكل ضحكه منك بتنور يومي 🌸 انا بحب تفاصيلك الصغيره قبل الكبيره بحب طريقتك وكلامك واهتمامك 💕 بحب احساس اني قريب منك حتى واحنا بعيد 🫶 انتي الامان اللي بلجأله والراحه اللي بدور عليها 🌷 انا كل يوم بحمد ربنا انه جمعني بيكي 🤲 وكل يوم بحبك اكتر من اللي قبله ❤️ انتي الحلم اللي اتحقق والدعوه اللي استجابت ✨ لما بفتكر انك في حياتي قلبي بيمتلئ طمأنينه وسعاده 💖 انتي النور اللي منور طريقي والفرحه اللي ماليه قلبي 🌙 انا عايز افضل جنبك دايما واحبك اكتر واكتر 💞 وجودك بس كفايه يخليني اقوى وافرح 🌹 انتي كل حاجه حلوه حصلتلي وكل حاجه نفسي تكمل معايا طول العمر ♾️ بحبك حب كبير اوي حب صادق نابع من قلبي ليكي انتي وبس ❤️
+      </div>    
+    </div>    
+  </div>    
+    
+  <div class="toast" id="toast">اتفتحت 🤍</div>    
+    
+  <script>    
+    const IMAGES = [    
+      "https://d.top4top.io/p_3725izf281.jpg",    
+      "https://b.top4top.io/p_372532w1v1.jpg",    
+      "https://c.top4top.io/p_3725sq6011.jpg",    
+      "https://l.top4top.io/p_3725495jb1.jpg",    
+      "https://j.top4top.io/p_37252h64w1.jpg",    
+      "https://a.top4top.io/p_3725y1aq51.jpg",    
+      "https://k.top4top.io/p_3725nnjcq1.jpg"
+    ];    
+    
+    const NOTES = [    
+      "بموت فيكى يا ام ليال♥️🫀",    
+      "هكون دايما امانك وجنبك🫂🫀",    
+      "بحب تفاصيلك كلها♥️ ومش هسيبك ابدا🫂",    
+      "هفضل سندك فى كل وقت🫂🫀",    
+      "انا عينى مليانه بزياده مليانه بيكى😊😊",    
+      "ملكه قلبى.... للابد🫂🫀"    
+    ];    
+    
+    const WORLD_SIZE = 5200;    
+    const CENTER_X = 2600;    
+    const CENTER_Y = 2600;    
+    
+    const introScreen = document.getElementById("introScreen");    
+    const mainScreen = document.getElementById("mainScreen");    
+    const enterBtn = document.getElementById("enterBtn");    
+    const passCode = document.getElementById("passCode");
+    const world = document.getElementById("world");    
+    const spaceView = document.getElementById("spaceView");    
+    const toast = document.getElementById("toast");    
+    const centerBtn = document.getElementById("centerBtn");    
+    
+    const viewer = document.getElementById("viewer");    
+    const dragImage = document.getElementById("dragImage");    
+    const viewerNote = document.getElementById("viewerNote");    
+    const closeViewer = document.getElementById("closeViewer");    
+    const zoomIn = document.getElementById("zoomIn");    
+    const zoomOut = document.getElementById("zoomOut");    
+    const resetImage = document.getElementById("resetImage");    
+    
+    const letterOverlay = document.getElementById("letterOverlay");    
+    const openLetterBtn = document.getElementById("openLetterBtn");    
+    const closeLetter = document.getElementById("closeLetter");    
+    
+    const audio = document.getElementById("audio");    
+    const playBtn = document.getElementById("playBtn");    
+    const curTime = document.getElementById("curTime");    
+    const durTime = document.getElementById("durTime");    
+    const seekbar = document.getElementById("seekbar");    
+    const seekFill = document.getElementById("seekFill");    
+    const seekKnob = document.getElementById("seekKnob");    
+    const volume = document.getElementById("volume");    
+    
+    let viewScale = 0.38;    
+    let minScale = 0.22;    
+    let maxScale = 2.2;    
+    let viewX = 0;    
+    let viewY = 0;    
+    
+    let panStartX = 0;    
+    let panStartY = 0;    
+    let startViewX = 0;    
+    let startViewY = 0;    
+    let isPanning = false;    
+    
+    let currentScale = 1;    
+    let posX = 0;    
+    let posY = 0;    
+    let draggingImage = false;    
+    let startX = 0;    
+    let startY = 0;    
+    
+    function showToast(text){    
+      toast.textContent = text;    
+      toast.classList.add("show");    
+      clearTimeout(showToast._t);    
+      showToast._t = setTimeout(()=> toast.classList.remove("show"), 1600);    
+    }    
+    
+    function randomNote(){    
+      return NOTES[Math.floor(Math.random() * NOTES.length)];    
+    }    
+    
+    function applyView(){    
+      world.style.transform = `translate(${viewX}px, ${viewY}px) scale(${viewScale})`;    
+    }    
+    
+    function centerWorld(animate = false){    
+      const vw = window.innerWidth;    
+      const vh = window.innerHeight;    
+      viewX = vw / 2 - CENTER_X * viewScale;    
+      viewY = vh / 2 - CENTER_Y * viewScale - 60;    
+      if(animate){    
+        world.style.transition = "transform .45s cubic-bezier(.2,.8,.2,1)";    
+        applyView();    
+        setTimeout(()=>{ world.style.transition = ""; }, 460);    
+      } else {    
+        applyView();    
+      }    
+    }    
+    
+    function createFloatingWorld(){    
+      const imageMinRadius = 500;    
+      const imageMaxRadius = 1500;    
+    
+      IMAGES.forEach((src, i)=>{    
+        const angle = Math.random() * Math.PI * 2;    
+        const radius = imageMinRadius + Math.random() * (imageMaxRadius - imageMinRadius);    
+    
+        const x = CENTER_X + Math.cos(angle) * radius;    
+        const y = CENTER_Y + Math.sin(angle) * radius;    
+    
+        const item = document.createElement("div");    
+        item.className = "orbit-image";    
+        item.style.left = `${x - 55}px`;    
+        item.style.top = `${y - 55}px`;    
+        item.style.animationDelay = `${(i * .2).toFixed(2)}s`;    
+    
+        const img = document.createElement("img");    
+        img.src = src;    
+        img.alt = `img-${i+1}`;    
+        img.loading = "lazy";    
+    
+        item.appendChild(img);    
+        world.appendChild(item);    
+    
+        item.addEventListener("click", (e)=>{    
+          e.stopPropagation();    
+          openViewer(src);    
+        });    
+      });    
+    
+      const notesCount = 30;    
+      const noteMinRadius = 650;    
+      const noteMaxRadius = 1850;    
+    
+      for(let i=0;i<notesCount;i++){    
+        const angle = Math.random() * Math.PI * 2;    
+        const radius = noteMinRadius + Math.random() * (noteMaxRadius - noteMinRadius);    
+    
+        const x = CENTER_X + Math.cos(angle) * radius;    
+        const y = CENTER_Y + Math.sin(angle) * radius;    
+    
+        const note = document.createElement("div");    
+        note.className = "floating-note";    
+        note.textContent = randomNote();    
+        note.style.left = `${x - 110}px`;    
+        note.style.top = `${y - 30}px`;    
+        note.style.animationDelay = `${(i * .35).toFixed(2)}s`;    
+        note.style.rotate = `${(Math.random() * 16 - 8).toFixed(1)}deg`;    
+    
+        world.appendChild(note);    
+      }    
+    }    
+    
+    enterBtn.addEventListener("click", ()=>{    
+      if(passCode.value === "16/1/2026"){
+        introScreen.classList.remove("active");    
+        introScreen.style.display = "none";    
+        introScreen.style.pointerEvents = "none";    
+      
+        mainScreen.classList.add("active");    
+        mainScreen.style.display = "block";    
+      
+        centerWorld();    
+        try{    
+          audio.volume = parseFloat(volume.value || "0.9");    
+          audio.play().catch(()=>{});    
+        }catch(e){}    
+        showToast("افضلي اتحركي براحتك 🤍");    
+      } else {
+        showToast("الباسورد غلط يا روحي ❌");
+      }
+    });    
+    
+    centerBtn.addEventListener("click", ()=> centerWorld(true));    
+    
+    spaceView.addEventListener("pointerdown", (e)=>{    
+      isPanning = true;    
+      spaceView.classList.add("dragging");    
+      panStartX = e.clientX;    
+      panStartY = e.clientY;    
+      startViewX = viewX;    
+      startViewY = viewY;    
+      spaceView.setPointerCapture(e.pointerId);    
+    });    
+    
+    spaceView.addEventListener("pointermove", (e)=>{    
+      if(!isPanning) return;    
+      const dx = e.clientX - panStartX;    
+      const dy = e.clientY - panStartY;    
+      viewX = startViewX + dx;    
+      viewY = startViewY + dy;    
+      applyView();    
+    });    
+    
+    function stopPan(){    
+      isPanning = false;    
+      spaceView.classList.remove("dragging");    
+    }    
+    
+    spaceView.addEventListener("pointerup", stopPan);    
+    spaceView.addEventListener("pointercancel", stopPan);    
+    
+    spaceView.addEventListener("wheel", (e)=>{    
+      e.preventDefault();    
+      const rect = spaceView.getBoundingClientRect();    
+      const pointerX = e.clientX - rect.left;    
+      const pointerY = e.clientY - rect.top;    
+    
+      const worldX = (pointerX - viewX) / viewScale;    
+      const worldY = (pointerY - viewY) / viewScale;    
+    
+      const delta = e.deltaY < 0 ? 1.08 : 0.92;    
+      const nextScale = Math.max(minScale, Math.min(maxScale, viewScale * delta));    
+      viewScale = nextScale;    
+    
+      viewX = pointerX - worldX * viewScale;    
+      viewY = pointerY - worldY * viewScale;    
+      applyView();    
+    }, { passive:false });    
+    
+    let pinchStartDistance = null;    
+    let pinchStartScale = null;    
+    let pinchWorldX = 0;    
+    let pinchWorldY = 0;    
+    
+    function getDistance(t1, t2){    
+      const dx = t2.clientX - t1.clientX;    
+      const dy = t2.clientY - t1.clientY;    
+      return Math.sqrt(dx*dx + dy*dy);    
+    }    
+    
+    spaceView.addEventListener("touchstart", (e)=>{    
+      if(e.touches.length === 2){    
+        pinchStartDistance = getDistance(e.touches[0], e.touches[1]);    
+        pinchStartScale = viewScale;    
+    
+        const rect = spaceView.getBoundingClientRect();    
+        const midX = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;    
+        const midY = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;    
+    
+        pinchWorldX = (midX - viewX) / viewScale;    
+        pinchWorldY = (midY - viewY) / viewScale;    
+      }    
+    }, { passive:true });    
+    
+    spaceView.addEventListener("touchmove", (e)=>{    
+      if(e.touches.length === 2 && pinchStartDistance){    
+        const rect = spaceView.getBoundingClientRect();    
+        const midX = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;    
+        const midY = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;    
+    
+        const dist = getDistance(e.touches[0], e.touches[1]);    
+        viewScale = Math.max(minScale, Math.min(maxScale, pinchStartScale * (dist / pinchStartDistance)));    
+    
+        viewX = midX - pinchWorldX * viewScale;    
+        viewY = midY - pinchWorldY * viewScale;    
+        applyView();    
+      }    
+    }, { passive:true });    
+    
+    spaceView.addEventListener("touchend", ()=>{    
+      pinchStartDistance = null;    
+      pinchStartScale = null;    
+    });    
+    
+    function openViewer(src){    
+      viewer.classList.add("show");    
+      dragImage.src = src;    
+      viewerNote.textContent = randomNote();    
+      resetViewerTransform();    
+    }    
+    
+    function closeViewerFn(){    
+      viewer.classList.remove("show");    
+    }    
+    
+    closeViewer.addEventListener("click", closeViewerFn);    
+    viewer.addEventListener("click", (e)=>{    
+      if(e.target === viewer) closeViewerFn();    
+    });    
+    
+    function updateImageTransform(){    
+      dragImage.style.transform = `translate(calc(-50% + ${posX}px), calc(-50% + ${posY}px)) scale(${currentScale})`;    
+    }    
+    
+    function resetViewerTransform(){    
+      currentScale = 1;    
+      posX = 0;    
+      posY = 0;    
+      updateImageTransform();    
+    }    
+    
+    zoomIn.addEventListener("click", ()=>{    
+      currentScale = Math.min(currentScale + 0.15, 3);    
+      updateImageTransform();    
+    });    
+    
+    zoomOut.addEventListener("click", ()=>{    
+      currentScale = Math.max(currentScale - 0.15, 0.55);    
+      updateImageTransform();    
+    });    
+    
+    resetImage.addEventListener("click", resetViewerTransform);    
+    
+    dragImage.addEventListener("pointerdown", (e)=>{    
+      draggingImage = true;    
+      startX = e.clientX - posX;    
+      startY = e.clientY - posY;    
+      dragImage.setPointerCapture(e.pointerId);    
+    });    
+    
+    dragImage.addEventListener("pointermove", (e)=>{    
+      if(!draggingImage) return;    
+      posX = e.clientX - startX;    
+      posY = e.clientY - startY;    
+      updateImageTransform();    
+    });    
+    
+    dragImage.addEventListener("pointerup", ()=> draggingImage = false);    
+    dragImage.addEventListener("pointercancel", ()=> draggingImage = false);    
+    
+    openLetterBtn.addEventListener("click", ()=>{    
+      letterOverlay.classList.add("show");    
+    });    
+    
+    closeLetter.addEventListener("click", ()=>{    
+      letterOverlay.classList.remove("show");    
+    });    
+    
+    letterOverlay.addEventListener("click", (e)=>{    
+      if(e.target === letterOverlay) letterOverlay.classList.remove("show");    
+    });    
+    
+    function fmt(t){    
+      if(!isFinite(t)) return "0:00";    
+      const m = Math.floor(t / 60);    
+      const s = Math.floor(t % 60);    
+      return `${m}:${String(s).padStart(2, "0")}`;    
+    }    
+    
+    function setPlayIcon(isPlaying){    
+      playBtn.innerHTML = isPlaying    
+        ? '<i class="fa-solid fa-pause"></i>'    
+        : '<i class="fa-solid fa-play"></i>';    
+    }    
+    
+    audio.addEventListener("loadedmetadata", ()=>{    
+      durTime.textContent = fmt(audio.duration);    
+    });    
+    
+    audio.addEventListener("timeupdate", ()=>{    
+      const p = (audio.currentTime / (audio.duration || 1)) * 100;    
+      seekFill.style.width = `${p}%`;    
+      seekKnob.style.left = `${p}%`;    
+      curTime.textContent = fmt(audio.currentTime);    
+    });    
+    
+    audio.addEventListener("play", ()=> setPlayIcon(true));    
+    audio.addEventListener("pause", ()=> setPlayIcon(false));    
+    
+    playBtn.addEventListener("click", ()=>{    
+      if(audio.paused){    
+        audio.play().catch(()=>{});    
+      }else{    
+        audio.pause();    
+      }    
+    });    
+    
+    volume.addEventListener("input", ()=>{    
+      audio.volume = parseFloat(volume.value || "0.9");    
+    });    
+    
+    function seekTo(clientX){    
+      const r = seekbar.getBoundingClientRect();    
+      const x = Math.min(Math.max(clientX - r.left, 0), r.width);    
+      audio.currentTime = (x / r.width) * (audio.duration || 0);    
+    }    
+    
+    let isSeeking = false;    
+    seekbar.addEventListener("pointerdown", (e)=>{    
+      isSeeking = true;    
+      seekbar.setPointerCapture(e.pointerId);    
+      seekTo(e.clientX);    
+    });    
+    seekbar.addEventListener("pointermove", (e)=>{    
+      if(isSeeking) seekTo(e.clientX);    
+    });    
+    seekbar.addEventListener("pointerup", ()=>{    
+      isSeeking = false;    
+    });    
+    
+    const starsCanvas = document.getElementById("stars");    
+    const sctx = starsCanvas.getContext("2d");    
+    let SW = 0, SH = 0, DPR = 1;    
+    const stars = [];    
+    const STAR_MAX = 100;    
+    
+    function resizeStars(){    
+      DPR = Math.min(window.devicePixelRatio || 1, 2);    
+      SW = starsCanvas.width = Math.floor(window.innerWidth * DPR);    
+      SH = starsCanvas.height = Math.floor(window.innerHeight * DPR);    
+      starsCanvas.style.width = window.innerWidth + "px";    
+      starsCanvas.style.height = window.innerHeight + "px";    
+    }    
+    
+    function rand(a,b){ return a + Math.random() * (b - a); }    
+    
+    function buildStars(){    
+      stars.length = 0;    
+      for(let i=0;i<STAR_MAX;i++){    
+        stars.push({    
+          x: rand(0, SW),    
+          y: rand(0, SH),    
+          r: rand(.6, 2.2) * DPR,    
+          a: rand(.15, .9),    
+          vy: rand(.04, .18) * DPR    
+        });    
+      }    
+    }    
+    
+    function drawStars(){    
+      sctx.clearRect(0,0,SW,SH);    
+      for(const st of stars){    
+        st.y += st.vy;    
+        if(st.y > SH + 8*DPR){    
+          st.y = -5;    
+          st.x = rand(0, SW);    
+        }    
+        sctx.save();    
+        sctx.globalAlpha = st.a;    
+        sctx.fillStyle = "#fff";    
+        sctx.beginPath();    
+        sctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);    
+        sctx.fill();    
+        sctx.restore();    
+      }    
+      requestAnimationFrame(drawStars);    
+    }    
+    
+    window.addEventListener("resize", ()=>{    
+      resizeStars();    
+      buildStars();    
+      centerWorld();    
+    });    
+    
+    createFloatingWorld();    
+    resizeStars();    
+    buildStars();    
+    drawStars();    
+    centerWorld();    
+  </script>    
+</body>    
+</html>
